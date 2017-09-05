@@ -96,7 +96,7 @@ class DnsSorgu(threading.Thread):
                 
     def takeover(self,domain):
         for firmap in self.firma.keys():
-            if firmap in domain:
+            if firmap in str(domain):
                 yollanacak="-- Firma: "+firmap+" Sitesi :"+self.firma[firmap]
                 print yollanacak    
    
@@ -134,7 +134,7 @@ if __name__ == '__main__':
         if option.thread:
             threadsayisi=option.thread
         else:
-            threadsayisi=10
+            threadsayisi=20
             
         print"""
         #######################################################
@@ -149,4 +149,4 @@ if __name__ == '__main__':
         x.main()    
     except KeyboardInterrupt:
         print('\n Bir tusa basildi.')
-        os._exit(1)
+        sys.exit(0)  
