@@ -3,7 +3,7 @@ import dns.resolver
 # -*- coding: utf-8 -*-
 #SubDomain Takeover Scanner by 0x94
 
-import Queue,threading,sys,optparse,colorama
+import Queue,threading,sys,optparse
 queue = Queue.Queue()
 
 class hazirla:
