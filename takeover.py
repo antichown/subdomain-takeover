@@ -96,7 +96,7 @@ class DnsSorgu(threading.Thread):
                 
     def takeover(self,domain):
         for firmap in self.firma.keys():
-            if firmap in domain:
+            if firmap in str(domain):
                 yollanacak="-- Firma: "+firmap+" Sitesi :"+self.firma[firmap]
                 print yollanacak    
    
