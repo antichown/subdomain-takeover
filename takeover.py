@@ -2,7 +2,12 @@
 # -*- coding: utf-8 -*-
 #SubDomain Takeover Scanner by 0x94
 
-import Queue,threading,sys,optparse
+import Queue
+import threading
+import sys
+import optparse
+import requests
+
 queue = Queue.Queue()
 
 try:
@@ -94,9 +99,35 @@ class DnsSorgu(threading.Thread):
                     "wpengine.com":"https://wpengine.com/",
                     "bitbucket":"https://bitbucket.org/",
                     "squarespace.com":"https://www.squarespace.com/",
-                    "unbouncepages.com":"https://unbounce.com/",
                     "unbounce.com":"https://unbounce.com/",                    
-                    "zendesk.com":"https://www.zendesk.com/"}        
+                    "zendesk.com":"https://www.zendesk.com/"}    
+        
+        self.response=["<strong>Trying to access your account",
+                       "Use a personal domain name",
+                        "The request could not be satisfied",
+                        "Sorry, We Couldn't Find That Page",
+                        "Fastly error: unknown domain",
+                        "The feed has not been found",
+                        "You can claim it now at",
+                        "Publishing platform",                        
+                        "There isn't a GitHub Pages site here",
+                        "<title>No such app</title>",                        
+                        "No settings were found for this company",
+                        "<title>No such app</title>",                        
+                        "You've Discovered A Missing Link. Our Apologies!",
+                        "Sorry, couldn&rsquo;t find the status page",                        
+                        "NoSuchBucket",
+                        "Sorry, this shop is currently unavailable",
+                        "<title>Hosted Status Pages for Your Company</title>",
+                        "data-html-name=\"Header Logo Link\"",                        
+                        "<title>Oops - We didn't find your site.</title>",
+                        "class=\"MarketplaceHeader__tictailLogo\"",                        
+                        "Whatever you were looking for doesn't currently exist at this address",
+                        "The requested URL was not found on this server",
+                        "The page you have requested does not exist",
+                        "This UserVoice subdomain is currently available!",
+                        "but is not configured for an account on our platform",
+                        "<title>Help Center Closed | Zendesk</title>"]
     def run(self):
         while not self.queue.empty(): 
             try:
@@ -107,20 +138,40 @@ class DnsSorgu(threading.Thread):
                 #answers.timeout = 0.2
                 #answers.lifetime = 0.10
                 for rdata in answers:
-                    #self.lock.acquire()
+                    self.lock.acquire()
                     print answers.qname,' CNAME:', rdata.target
                     self.takeover(rdata.target,gelenq)
-                    #self.lock.release()
+                    self.lock.release()
             except:
                 hata ="hata"
                
             self.queue.task_done() 
+    
+    
+    
+    
+    def detect(self,subdomain):
+        try:
+            subrespon=requests.get("http://"+subdomain).text      
+            for finder in self.response:
+                if finder in subrespon:
+                    self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
+                    print "--- TAKEOVER DETECTED !!! : "+subdomain
+        except Exception as e:
+            for finder in self.response:
+                if finder in subrespon:
+                    self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
+                    print "--- TAKEOVER DETECTED !!! : "+subdomain            
+        
+    def filewrite(veri):
+        open("takeover.txt","a+").write(veri)
                 
     def takeover(self,domain,subdomain):
         for firmap in self.firma.keys():
             if firmap in str(domain):
                 yollanacak="-- Firma: "+firmap+" Sitesi :"+self.firma[firmap]
-                open("takeover.txt","a+").write(subdomain+" --> "+str(domain)+yollanacak+"\n")
+                self.filewrite(subdomain+" --> "+str(domain)+yollanacak+"\n")
+                self.detect(subdomain)
                 print yollanacak    
    
     
