@@ -1,10 +1,18 @@
-import dns.resolver
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #SubDomain Takeover Scanner by 0x94
 
 import Queue,threading,sys,optparse
 queue = Queue.Queue()
+
+try:
+    import dns.resolver
+except:
+    print("Python dns.resolver eklentisi bulunamadi , onu yukledikten sonra calistirin")
+    sys.exit(1)
+
+
+
 
 class hazirla:
     def __init__(self,domain,wordlist,thread):
@@ -27,8 +35,13 @@ class hazirla:
             threads.append(t)
             t.start()
             
-        for x in threads:
-            x.join()
+        try:
+            for x in threads:
+                t.join() 
+        except KeyboardInterrupt:
+            print "Program sona erdi"
+            sys.exit(1)        
+
             
         
     def main(self):
@@ -79,25 +92,35 @@ class DnsSorgu(threading.Thread):
                     "unbouncepages.com":"https://unbounce.com/",
                     "uservoice.com":"https://www.uservoice.com/",
                     "wpengine.com":"https://wpengine.com/",
+                    "bitbucket":"https://bitbucket.org/",
+                    "squarespace.com":"https://www.squarespace.com/",
+                    "unbouncepages.com":"https://unbounce.com/",
+                    "unbounce.com":"https://unbounce.com/",                    
                     "zendesk.com":"https://www.zendesk.com/"}        
     def run(self):
         while not self.queue.empty(): 
             try:
-                answers = dns.resolver.query(self.queue.get(), 'CNAME')
-                answers.timeout = 0.2
-                answers.lifetime = 0.10
+                gelenq=self.queue.get()
+                sys.stdout.write("Taraniyor : "+gelenq + "                                     \r")
+                sys.stdout.flush()                
+                answers = dns.resolver.query(gelenq, 'CNAME')
+                #answers.timeout = 0.2
+                #answers.lifetime = 0.10
                 for rdata in answers:
-                    self.lock.acquire()
+                    #self.lock.acquire()
                     print answers.qname,' CNAME:', rdata.target
-                    self.takeover(rdata.target)
-                    self.lock.release()
+                    self.takeover(rdata.target,gelenq)
+                    #self.lock.release()
             except:
-                self.queue.task_done()  
+                hata ="hata"
+               
+            self.queue.task_done() 
                 
-    def takeover(self,domain):
+    def takeover(self,domain,subdomain):
         for firmap in self.firma.keys():
             if firmap in str(domain):
                 yollanacak="-- Firma: "+firmap+" Sitesi :"+self.firma[firmap]
+                open("takeover.txt","a+").write(subdomain+" --> "+str(domain)+yollanacak+"\n")
                 print yollanacak    
    
     
@@ -134,7 +157,7 @@ if __name__ == '__main__':
         if option.thread:
             threadsayisi=option.thread
         else:
-            threadsayisi=10
+            threadsayisi=20
             
         print"""
         #######################################################
