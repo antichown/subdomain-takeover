@@ -20,12 +20,12 @@ class hazirla:
         self.wordlist=wordlist
         self.thread=thread
         
-    def thbaslat(self,sifreler):
+    def thbaslat(self,sublar):
         
         lock    = threading.Lock()
-        for sifre in sifreler:
-            if sifre.strip():
-                queue.put(sifre.strip()+"."+self.domain)
+        for subum in sublar:
+            if subum.strip():
+                queue.put(subum.strip()+"."+self.domain)
                 
         threads = []
                 
