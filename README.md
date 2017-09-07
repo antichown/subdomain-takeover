@@ -11,7 +11,7 @@ siz kendiniz cname değerine bakarak yola çıkın.
 
 <br>
 
-<img src=https://raw.githubusercontent.com/antichown/subdomain-takeover/master/take2.png>
+<img src=https://raw.githubusercontent.com/antichown/subdomain-takeover/master/take2.jpg>
 
 <br>
 <img src=https://raw.githubusercontent.com/antichown/subdomain-takeover/master/take.png>
