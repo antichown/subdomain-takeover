@@ -139,8 +139,8 @@ class DnsSorgu(threading.Thread):
                 #answers.lifetime = 0.10
                 for rdata in answers:
                     self.lock.acquire()
-                    print answers.qname,' CNAME:', rdata.target
-                    self.takeover(rdata.target,gelenq)
+                    print answers.qname,' CNAME:', rdata.target.to_text()
+                    self.takeover(rdata.target.to_text(),gelenq)
                     self.lock.release()
             except:
                 hata ="hata"
@@ -163,7 +163,7 @@ class DnsSorgu(threading.Thread):
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
                     print "--- TAKEOVER DETECTED !!! : "+subdomain            
         
-    def filewrite(veri):
+    def filewrite(self,veri):
         open("takeover.txt","a+").write(veri)
                 
     def takeover(self,domain,subdomain):
@@ -213,7 +213,7 @@ if __name__ == '__main__':
         print"""
         #######################################################
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-        #              SubDomain TakeOver v1.0                #
+        #              SubDomain TakeOver v1.1                #
         #                    Coder: 0x94                      #
         #                  twitter.com/0x94                   #
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
