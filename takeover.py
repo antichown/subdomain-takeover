@@ -7,6 +7,7 @@ import threading
 import sys
 import optparse
 import requests
+import colorama
 
 queue = Queue.Queue()
 
@@ -128,6 +129,10 @@ class DnsSorgu(threading.Thread):
                         "This UserVoice subdomain is currently available!",
                         "but is not configured for an account on our platform",
                         "<title>Help Center Closed | Zendesk</title>"]
+        
+        self.success = colorama.Fore.GREEN 
+        self.error = colorama.Fore.RED   
+        self.info = colorama.Fore.YELLOW  
     def run(self):
         while not self.queue.empty(): 
             try:
@@ -156,12 +161,12 @@ class DnsSorgu(threading.Thread):
             for finder in self.response:
                 if finder in subrespon:
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
-                    print "--- TAKEOVER DETECTED !!! : "+subdomain
+                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain
         except Exception as e:
             for finder in self.response:
                 if finder in subrespon:
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
-                    print "--- TAKEOVER DETECTED !!! : "+subdomain            
+                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain            
         
     def filewrite(self,veri):
         open("takeover.txt","a+").write(veri)
@@ -171,13 +176,14 @@ class DnsSorgu(threading.Thread):
             if firmap in str(domain):
                 yollanacak="-- Firma: "+firmap+" Sitesi :"+self.firma[firmap]
                 self.filewrite(subdomain+" --> "+str(domain)+yollanacak+"\n")
-                self.detect(subdomain)
-                print yollanacak    
+                print self.info+yollanacak  
+                self.detect(subdomain)  
    
     
 
 if __name__ == '__main__':
-    try:             
+    try:           
+        colorama.init(autoreset=True) #windows icin        
         parser = optparse.OptionParser()
         parser.add_option('-d',
             action = "store", 
