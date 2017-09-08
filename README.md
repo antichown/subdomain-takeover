@@ -2,7 +2,6 @@
 
 SubDomain TakeOver Scanner by 0x94
 
-1- 
 
 -d => domain <br>
 -w => wordlist <br>
