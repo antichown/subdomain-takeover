@@ -14,7 +14,7 @@ queue = Queue.Queue()
 try:
     import dns.resolver
 except:
-    print("Python dns.resolver eklentisi bulunamadi , onu yukledikten sonra calistirin")
+    print("You need to install dnspython")
     sys.exit(1)
 
 
@@ -45,7 +45,7 @@ class hazirla:
             for x in threads:
                 t.join() 
         except KeyboardInterrupt:
-            print "Program sona erdi"
+            print "Exit"
             sys.exit(1)        
 
             
@@ -54,13 +54,13 @@ class hazirla:
         try:
             dosya  = open(self.wordlist)
         except IOError:
-            print "dosya bulunamadi %s" % (self.wordlist)
+            print "File not found %s" % (self.wordlist)
             sys.exit(0)
         try:
             self.thbaslat(dosya.xreadlines()) 
         except (KeyboardInterrupt,SystemExit):
             self.stop = True
-            print "iptal edildi"
+            print "Cancelled"
             exit()
             
 class DnsSorgu(threading.Thread):
@@ -137,7 +137,7 @@ class DnsSorgu(threading.Thread):
         while not self.queue.empty(): 
             try:
                 gelenq=self.queue.get()
-                sys.stdout.write("Taraniyor : "+gelenq + "                                     \r")
+                sys.stdout.write("Scanning : "+gelenq + "                                     \r")
                 sys.stdout.flush()                
                 answers = dns.resolver.query(gelenq, 'CNAME')
                 #answers.timeout = 0.2
@@ -174,7 +174,7 @@ class DnsSorgu(threading.Thread):
     def takeover(self,domain,subdomain):
         for firmap in self.firma.keys():
             if firmap in str(domain):
-                yollanacak="-- Firma: "+firmap+" Sitesi :"+self.firma[firmap]
+                yollanacak="-- Company: "+firmap+" WebSite :"+self.firma[firmap]
                 self.filewrite(subdomain+" --> "+str(domain)+yollanacak+"\n")
                 print self.info+yollanacak  
                 self.detect(subdomain)  
@@ -189,26 +189,24 @@ if __name__ == '__main__':
             action = "store", 
             dest   = "domain",
             type   = "string", 
-            help = "ornek: ./takeover.py -d host.com")
+            help = "example: ./takeover.py -d host.com")
         parser.add_option('-w',
             action = "store", 
             dest   = "wordlist",
             type   = "string", 
-            help = "ornek: ./takeover.py -d host.com -w wordlist.txt ")  
+            help = "example: ./takeover.py -d host.com -w wordlist.txt ")  
         parser.add_option('-t',
             action = "store", 
             dest   = "thread",
             type   = "int", 
-            help = "ornek: ./takeover.py -d host.com -w wordlist.txt  -t 10")        
+            help = "example: ./takeover.py -d host.com -w wordlist.txt  -t 10")        
         (option,args) = parser.parse_args()
         if not option.domain:
-            print "domain girmedin"
-            print "ornek: ./takeover.py -d host.com -w wordlist.txt  -t 10" 
+            print "example: ./takeover.py -d host.com -w wordlist.txt  -t 10" 
             sys.exit(0)   
             
         if not option.wordlist:
-            print "wordlist girmedin"
-            print "ornek: ./takeover.py -d host.com -w wordlist.txt" 
+            print "example: ./takeover.py -d host.com -w wordlist.txt" 
             sys.exit(0)  
             
         if option.thread:
@@ -228,5 +226,5 @@ if __name__ == '__main__':
         x=hazirla(option.domain,option.wordlist,threadsayisi)
         x.main()    
     except KeyboardInterrupt:
-        print('\n Bir tusa basildi.')
+        print('\n Exit.')
         sys.exit(0)
