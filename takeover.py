@@ -145,6 +145,7 @@ class DnsSorgu(threading.Thread):
                 for rdata in answers:
                     self.lock.acquire()
                     print answers.qname,' CNAME:', rdata.target.to_text()
+                    self.domaindel(rdata.target.to_text())
                     self.takeover(rdata.target.to_text(),gelenq)
                     self.lock.release()
             except:
@@ -153,6 +154,15 @@ class DnsSorgu(threading.Thread):
             self.queue.task_done() 
     
     
+    def domaindel(self,cname):
+        try:
+            dns.resolver.query(cname)
+            return True
+        except:
+            yaz="Cname NOT Resolved "+cname
+            print self.error+yaz
+            self.filewrite(yaz)
+            return False
     
     
     def detect(self,subdomain):
@@ -169,7 +179,7 @@ class DnsSorgu(threading.Thread):
                     print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain            
         
     def filewrite(self,veri):
-        open("takeover.txt","a+").write(veri)
+        open("takeover.txt","a+").write(veri+"\n")
                 
     def takeover(self,domain,subdomain):
         for firmap in self.firma.keys():
@@ -217,7 +227,7 @@ if __name__ == '__main__':
         print"""
         #######################################################
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-        #              SubDomain TakeOver v1.1                #
+        #              SubDomain TakeOver v1.2                #
         #                    Coder: 0x94                      #
         #                  twitter.com/0x94                   #
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
