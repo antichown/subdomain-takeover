@@ -76,7 +76,6 @@ class DnsSorgu(threading.Thread):
                     "desk.com":"https://www.desk.com/",
                     "fastly.net":"https://www.fastly.com/",
                     "feedpress.me":"https://feed.press/",
-                    "freshdesk.com":"https://freshdesk.com/",
                     "ghost.io":"https://ghost.org/",
                     "github.io":"https://pages.github.com/",
                     "helpjuice.com":"https://helpjuice.com/",
@@ -97,9 +96,7 @@ class DnsSorgu(threading.Thread):
                     "domains.tumblr.com":"https://www.tumblr.com/",
                     "unbouncepages.com":"https://unbounce.com/",
                     "uservoice.com":"https://www.uservoice.com/",
-                    "wpengine.com":"https://wpengine.com/",
                     "bitbucket":"https://bitbucket.org/",
-                    "squarespace.com":"https://www.squarespace.com/",
                     "unbounce.com":"https://unbounce.com/",                    
                     "zendesk.com":"https://www.zendesk.com/"}    
         
