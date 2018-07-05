@@ -76,7 +76,6 @@ class DnsSorgu(threading.Thread):
                     "desk.com":"https://www.desk.com/",
                     "fastly.net":"https://www.fastly.com/",
                     "feedpress.me":"https://feed.press/",
-                    "freshdesk.com":"https://freshdesk.com/",
                     "ghost.io":"https://ghost.org/",
                     "github.io":"https://pages.github.com/",
                     "helpjuice.com":"https://helpjuice.com/",
@@ -84,6 +83,7 @@ class DnsSorgu(threading.Thread):
                     "herokudns.com":"https://www.heroku.com/",
                     "herokussl.com":"https://www.heroku.com/",
                     "herokuapp.com":"https://www.heroku.com/",
+                    "jetbrains.com":"https://myjetbrains.com/",
                     "pageserve.co":"https://instapage.com/",
                     "pingdom.com":"https://www.pingdom.com/",
                     "amazonaws.com":"https://aws.amazon.com/s3/",
@@ -97,10 +97,9 @@ class DnsSorgu(threading.Thread):
                     "domains.tumblr.com":"https://www.tumblr.com/",
                     "unbouncepages.com":"https://unbounce.com/",
                     "uservoice.com":"https://www.uservoice.com/",
-                    "wpengine.com":"https://wpengine.com/",
                     "bitbucket":"https://bitbucket.org/",
-                    "squarespace.com":"https://www.squarespace.com/",
-                    "unbounce.com":"https://unbounce.com/",                    
+                    "unbounce.com":"https://unbounce.com/",
+                    "vend":"https://vendcommerce.com/",
                     "zendesk.com":"https://www.zendesk.com/"}    
         
         self.response=["<strong>Trying to access your account",
@@ -114,7 +113,8 @@ class DnsSorgu(threading.Thread):
                         "There isn't a GitHub Pages site here",
                         "<title>No such app</title>",                        
                         "No settings were found for this company",
-                        "<title>No such app</title>",                        
+                        "<title>No such app</title>",
+                        "is not a registered InCloud YouTrack.",
                         "You've Discovered A Missing Link. Our Apologies!",
                         "Sorry, couldn&rsquo;t find the status page",                        
                         "NoSuchBucket",
@@ -128,6 +128,7 @@ class DnsSorgu(threading.Thread):
                         "The page you have requested does not exist",
                         "This UserVoice subdomain is currently available!",
                         "but is not configured for an account on our platform",
+                        "Looks like you've traveled too far into cyberspace."
                         "<title>Help Center Closed | Zendesk</title>"]
         
         self.success = colorama.Fore.GREEN 
