@@ -14,6 +14,8 @@ SubDomain TakeOver Scanner by <a href=http://twitter.com/0x94>@0x94</a>
 <br>
 <img src=https://raw.githubusercontent.com/antichown/subdomain-takeover/master/take.png>
 
+[![Takeover Scanner 0x94](http://img.youtube.com/vi/WkvuoWh12IU/0.jpg)](http://www.youtube.com/watch?v=WkvuoWh12IU "Takeover Scanner 0x94")
+
 
 # Dependencies
 
