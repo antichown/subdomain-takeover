@@ -224,7 +224,7 @@ class DnsSorgu(threading.Thread):
             for finder in self.response:
                 if finder in subrespon:
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain+Style.RESET_ALL)
-                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+ Style.RESET_ALL
+                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+Style.RESET_ALL
         except Exception as e:
             for finder in self.response:
                 if finder in subrespon:
