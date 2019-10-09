@@ -273,6 +273,9 @@ class DnsSorgu(threading.Thread):
                 print(self.info+yollanacak+Style.RESET_ALL)
                 self.detect(subdomain)
                 
+            else:
+                self.detect(subdomain)
+                
     def erase(self):
         if platform.system() == 'Windows':
             csbi = GetConsoleScreenBufferInfo()
