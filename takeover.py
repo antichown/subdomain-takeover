@@ -29,10 +29,11 @@ except:
 
 
 class hazirla:
-    def __init__(self,domain,wordlist,thread):
+    def __init__(self,domain,wordlist,thread,filem):
         self.domain=domain
         self.wordlist=wordlist
         self.thread=thread
+        self.filem=filem
         
     def thbaslat(self,sublar,num_lines):
         
@@ -40,7 +41,11 @@ class hazirla:
         
         for subum in sublar:
             if subum.strip():
-                queue.put(subum.strip()+"."+self.domain)
+                if self.filem!="":
+                    queue.put(subum.strip())
+                else:
+                    queue.put(subum.strip()+"."+self.domain)
+                    
                 
         threads = []
         exit = threading.Event()
@@ -61,10 +66,18 @@ class hazirla:
         
     def main(self):
         try:
-            num_lines = sum(1 for line in open(self.wordlist))            
-            dosya  = open(self.wordlist)
+            if self.filem!="":
+                num_lines = sum(1 for line in open(self.filem))            
+                dosya  = open(self.filem)                
+            else:
+                num_lines = sum(1 for line in open(self.wordlist))            
+                dosya  = open(self.wordlist)
+ 
         except IOError:
-            print "File not found %s" % (self.wordlist)
+            if self.filem!="":
+                print "File not found %s" % (self.filem) 
+            else:
+                print "File not found %s" % (self.wordlist)
             sys.exit(0)
         try:
             self.thbaslat(dosya.xreadlines(),num_lines) 
@@ -224,7 +237,7 @@ class DnsSorgu(threading.Thread):
             for finder in self.response:
                 if finder in subrespon:
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain+Style.RESET_ALL)
-                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+Style.RESET_ALL
+                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+ Style.RESET_ALL
         except Exception as e:
             for finder in self.response:
                 if finder in subrespon:
@@ -292,27 +305,27 @@ if __name__ == '__main__':
         parser.add_option('-d',
             action = "store", 
             dest   = "domain",
-            type   = "string", 
-            help = "example: ./takeover.py -d host.com")
+            type   = "string")
         parser.add_option('-w',
             action = "store", 
             dest   = "wordlist",
-            type   = "string", 
-            help = "example: ./takeover.py -d host.com -w wordlist.txt ")  
+            type   = "string")  
         parser.add_option('-t',
             action = "store", 
             dest   = "thread",
-            type   = "int", 
-            help = "example: ./takeover.py -d host.com -w wordlist.txt  -t 10")        
+            type   = "int")   
+        
+        parser.add_option('-f',
+            action = "store", 
+            dest   = "filem",
+            type   = "string") 
+        
         (option,args) = parser.parse_args()
         
         if not option.domain:
-            print "example: ./takeover.py -d host.com -w wordlist.txt  -t 10" 
+            print "example: ./takeover.py -d host.com -w wordlist.txt  -t 10 or | ./takeover.py -d host.com -f sublist.txt  -t 10 " 
             sys.exit(0)   
-            
-        if not option.wordlist:
-            print "example: ./takeover.py -d host.com -w wordlist.txt" 
-            sys.exit(0)  
+        
             
         if option.thread:
             threadsayisi=option.thread
@@ -330,7 +343,10 @@ if __name__ == '__main__':
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
         #######################################################  
         """          
-        x=hazirla(option.domain,option.wordlist,threadsayisi)
+        if option.filem:
+            x=hazirla(option.domain,option.wordlist,threadsayisi,option.filem)
+        else:
+            x=hazirla(option.domain,option.wordlist,threadsayisi,"")
         x.main()    
     except KeyboardInterrupt:
         print('\n Exit.')
