@@ -1,4 +1,4 @@
-# subdomain-takeover
+# subdomain-takeover | SubDomain TakeOver Scanner
 
 SubDomain TakeOver Scanner by <a href=http://twitter.com/0x94>@0x94</a>
 
