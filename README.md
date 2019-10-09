@@ -5,7 +5,8 @@ SubDomain TakeOver Scanner by <a href=http://twitter.com/0x94>@0x94</a>
 
 -d => domain <br>
 -w => wordlist <br>
--t => thread  <br>
+-t => thread  <br> 
+-f => sublist file
 
 <br>
 
