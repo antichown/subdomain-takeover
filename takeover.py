@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 #SubDomain Takeover Scanner by 0x94
 
-import Queue
 import threading
 import sys
 import optparse
@@ -14,8 +13,17 @@ import time
 
 if platform.system() == 'Windows':
     from thirdparty.colorama.win32 import *
+ 
+is_py2 = sys.version[0] == '2'
+if is_py2:
+    import Queue
+    queue = Queue.Queue()
     
-queue = Queue.Queue()
+else:
+    import queue as queue
+    queue = queue.Queue()
+    
+        
 progress=0
 lastInLine = False
 
@@ -59,7 +67,7 @@ class hazirla:
         try:
             queue.join() 
         except KeyboardInterrupt:
-            print "Exit"
+            print("Exit")
             sys.exit(1)        
 
             
@@ -75,14 +83,14 @@ class hazirla:
  
         except IOError:
             if self.filem!="":
-                print "File not found %s" % (self.filem) 
+                print("File not found %s" % (self.filem))
             else:
-                print "File not found %s" % (self.wordlist)
+                print("File not found %s" % (self.wordlist))
             sys.exit(0)
         try:
-            self.thbaslat(dosya.xreadlines(),num_lines) 
+            self.thbaslat(dosya.readlines(),num_lines) 
         except (KeyboardInterrupt,SystemExit):
-            print "Cancelled"
+            print("Cancelled")
             exit()
             
 class DnsSorgu(threading.Thread):
@@ -239,7 +247,7 @@ class DnsSorgu(threading.Thread):
             return True
         except:
             yaz="Cname not  resolved "+cname
-            print Style.BRIGHT+self.error+yaz+Style.RESET_ALL
+            print(Style.BRIGHT+self.error+yaz+Style.RESET_ALL)
             self.filewrite(yaz)
             return False
     
@@ -250,7 +258,7 @@ class DnsSorgu(threading.Thread):
             for finder in self.response:
                 if finder in subrespon:
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
-                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+ Style.RESET_ALL
+                    print(self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+ Style.RESET_ALL)
         except Exception as e:
             a="error"        
         
@@ -262,7 +270,7 @@ class DnsSorgu(threading.Thread):
             if firmap in str(domain):
                 yollanacak="-- Company: "+firmap+" WebSite :"+self.firma[firmap]
                 self.filewrite(subdomain+" --> "+str(domain)+yollanacak+"\n")
-                print self.info+yollanacak+Style.RESET_ALL
+                print(self.info+yollanacak+Style.RESET_ALL)
                 self.detect(subdomain)
                 
     def erase(self):
@@ -333,7 +341,7 @@ if __name__ == '__main__':
         (option,args) = parser.parse_args()
         
         if not option.domain:
-            print "example: ./takeover.py -d host.com -w wordlist.txt  -t 10 or | ./takeover.py -d host.com -f sublist.txt  -t 10 " 
+            print("example: ./takeover.py -d host.com -w wordlist.txt  -t 10 or | ./takeover.py -d host.com -f sublist.txt  -t 10 ")
             sys.exit(0)   
         
             
@@ -344,7 +352,7 @@ if __name__ == '__main__':
             
            
             
-        print"""
+        print("""
         #######################################################
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
         #              SubDomain TakeOver v1.5                #
@@ -352,7 +360,7 @@ if __name__ == '__main__':
         #                  twitter.com/0x94                   #
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
         #######################################################  
-        """          
+        """)          
         if option.filem:
             x=hazirla(option.domain,option.wordlist,threadsayisi,option.filem)
         else:
