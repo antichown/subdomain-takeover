@@ -51,7 +51,7 @@ class hazirla:
         exit = threading.Event()
                 
         for i in range(self.thread):
-            t = DnsSorgu(queue,lock,num_lines,exit)
+            t = DnsSorgu(queue,lock,num_lines,exit,self.filem)
             t.setDaemon(True)
             threads.append(t)
             t.start()
@@ -86,12 +86,13 @@ class hazirla:
             exit()
             
 class DnsSorgu(threading.Thread):
-    def __init__(self, queue,lock,num_lines,exit):
+    def __init__(self, queue,lock,num_lines,exit,filem):
         threading.Thread.__init__(self)
         self.queue      = queue
         self.lock       = lock
         self.num_lines = num_lines
         self.exit = exit
+        self.filem=filem
                  
         self.firma={"createsend":"https://www.zendesk.com/",
                     "cargocollective":"https://cargocollective.com/",
@@ -158,6 +159,17 @@ class DnsSorgu(threading.Thread):
                         "Project doesnt exist... yet!",
                         "project not found",
                         "Please renew your subscription",
+                        "Double check the URL or <a href=\"mailto:help@createsend.com",
+                        "There is no portal here",
+                        "You may have mistyped the address or the page may have moved",
+                        "Repository not found",
+                        "<title>404 &mdash; File not found</title>",
+                        "This page is reserved for artistic dogs",
+                        "<h1>The page you were looking for doesn",
+                        "<h1>https://www.wishpond.com/404?campaign=true",
+                        '<p class="bc-gallery-error-code">Error Code: 404</p>',
+                        "<h1>Oops! We couldn&#8217;t find that page.</h1>",
+                        "Unrecognized domain <strong>",
                         "<title>Help Center Closed | Zendesk</title>"]
         
         self.success = Fore.GREEN 
@@ -191,16 +203,17 @@ class DnsSorgu(threading.Thread):
                     
                     self.inLine(message) 
                     
+                
                     
                     try:
                         answers = dns.resolver.query(gelenq, 'CNAME')
                         for rdata in answers:
                             
-                            message = '[{0}] {1} - {2} - {3}'.format(
+                            message = '[{0}] {1} - {2} -  Cname -> {3}'.format(
                                         time.strftime('%H:%M:%S'),
                                        gelenq,
                                         answers.qname,
-                                        rdata.target.to_text()
+                                        Fore.YELLOW+rdata.target.to_text()+Style.RESET_ALL
                                     )
                             
                         
@@ -210,8 +223,8 @@ class DnsSorgu(threading.Thread):
                             self.takeover(rdata.target.to_text(),gelenq)                    
                     except:
                         hata ="hata"                
-                    #answers.timeout = 0.2
-                    #answers.lifetime = 0.10
+                        #answers.timeout = 0.5
+                        #answers.lifetime = 0.10
                     
               
                       
@@ -236,13 +249,10 @@ class DnsSorgu(threading.Thread):
             subrespon=requests.get("http://"+subdomain).text      
             for finder in self.response:
                 if finder in subrespon:
-                    self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain+Style.RESET_ALL)
+                    self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
                     print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+ Style.RESET_ALL
         except Exception as e:
-            for finder in self.response:
-                if finder in subrespon:
-                    self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain+Style.RESET_ALL)
-                    print self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+Style.RESET_ALL         
+            a="error"        
         
     def filewrite(self,veri):
         open("takeover.txt","a+").write(veri+"\n")
@@ -337,7 +347,7 @@ if __name__ == '__main__':
         print"""
         #######################################################
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-        #              SubDomain TakeOver v1.6                #
+        #              SubDomain TakeOver v1.5                #
         #                    Coder: 0x94                      #
         #                  twitter.com/0x94                   #
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
