@@ -17,7 +17,9 @@ pip install -r requirements.txt
 
 ```
 python takeover.py -d domain.com -w wordlist.txt -t 20
-or 
+ ```
+or
+ ```
 python takeover.py -d domain.com -f sublist.txt -t 20
 ```
 
