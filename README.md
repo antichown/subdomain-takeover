@@ -2,11 +2,14 @@
 
 SubDomain TakeOver Scanner by <a href=http://twitter.com/0x94>@0x94</a>
 
-
--d => domain <br>
+# Usage
 -w => wordlist <br>
--t => thread  <br> 
+-t => thread <br> 
 -f => sublist file
+
+python takeover.py -d domain.com -w wordlist.txt -t 20
+or 
+python takeover.py -d domain.com -f sublist.txt -t 20
 
 <br>
 
