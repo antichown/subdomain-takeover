@@ -3,9 +3,10 @@
 SubDomain TakeOver Scanner by <a href=http://twitter.com/0x94>@0x94</a>
 
 # Usage
+-d => domain <br>
 -w => wordlist <br>
 -t => thread <br> 
--f => sublist file
+-f => sublist file<br>
 
 ```
 python takeover.py -d domain.com -w wordlist.txt -t 20
