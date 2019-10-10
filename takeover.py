@@ -102,37 +102,6 @@ class DnsSorgu(threading.Thread):
         self.exit = exit
         self.filem=filem
                  
-        self.firma={"createsend":"https://www.zendesk.com/",
-                    "cargocollective":"https://cargocollective.com/",
-                    "cloudfront":"https://aws.amazon.com/cloudfront/",
-                    "desk.com":"https://www.desk.com/",
-                    "fastly.net":"https://www.fastly.com/",
-                    "feedpress.me":"https://feed.press/",
-                    "ghost.io":"https://ghost.org/",
-                    "helpjuice.com":"https://helpjuice.com/",
-                    "helpscoutdocs.com":"https://www.helpscout.net/",
-                    "herokudns.com":"https://www.heroku.com/",
-                    "herokussl.com":"https://www.heroku.com/",
-                    "herokuapp.com":"https://www.heroku.com/",
-                    "jetbrains.com":"https://myjetbrains.com/",
-                    "pageserve.co":"https://instapage.com/",
-                    "pingdom.com":"https://www.pingdom.com/",
-                    "amazonaws.com":"https://aws.amazon.com/s3/",
-                    "myshopify.com":"https://www.shopify.com/",
-                    "stspg-customer.com":"https://www.statuspage.io/",
-                    "sgizmo.com":"https://www.surveygizmo.com/",
-                    "surveygizmo.eu":"https://www.surveygizmo.com//",
-                    "sgizmoca.com":"https://www.surveygizmo.com/",
-                    "teamwork.com":"https://www.teamwork.com/",
-                    "tictail.com":"https://tictail.com/",
-                    "domains.tumblr.com":"https://www.tumblr.com/",
-                    "unbouncepages.com":"https://unbounce.com/",
-                    "uservoice.com":"https://www.uservoice.com/",
-                    "bitbucket":"https://bitbucket.org/",
-                    "unbounce.com":"https://unbounce.com/",
-                    "vend":"https://vendcommerce.com/",
-                    "zendesk.com":"https://www.zendesk.com/"}    
-        
         self.response=["<strong>Trying to access your account",
                        "Use a personal domain name",
                         "The request could not be satisfied",
@@ -154,7 +123,6 @@ class DnsSorgu(threading.Thread):
                         "<title>Oops - We didn't find your site.</title>",
                         "class=\"MarketplaceHeader__tictailLogo\"",                        
                         "Whatever you were looking for doesn't currently exist at this address",
-                        "The requested URL was not found on this server",
                         "The page you have requested does not exist",
                         "This UserVoice subdomain is currently available!",
                         "but is not configured for an account on our platform",
@@ -258,7 +226,7 @@ class DnsSorgu(threading.Thread):
             for finder in self.response:
                 if finder in subrespon:
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
-                    print(self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+ Style.RESET_ALL)
+                    print(self.error+"--- TAKEOVER DETECTED !!! : "+subdomain+ "\n Message="+finder+Style.RESET_ALL)
         except Exception as e:
             a="error"        
         
@@ -266,15 +234,7 @@ class DnsSorgu(threading.Thread):
         open("takeover.txt","a+").write(veri+"\n")
                 
     def takeover(self,domain,subdomain):
-        for firmap in self.firma.keys():
-            if firmap in str(domain):
-                yollanacak="-- Company: "+firmap+" WebSite :"+self.firma[firmap]
-                self.filewrite(subdomain+" --> "+str(domain)+yollanacak+"\n")
-                print(self.info+yollanacak+Style.RESET_ALL)
-                self.detect(subdomain)
-                
-            else:
-                self.detect(subdomain)
+        self.detect(subdomain)
                 
     def erase(self):
         if platform.system() == 'Windows':
