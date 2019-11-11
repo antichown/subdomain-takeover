@@ -11,6 +11,10 @@ import platform
 from thirdparty.colorama import *
 import time
 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 if platform.system() == 'Windows':
     from thirdparty.colorama.win32 import *
  
@@ -146,6 +150,8 @@ class DnsSorgu(threading.Thread):
                         '<p class="bc-gallery-error-code">Error Code: 404</p>',
                         "<h1>Oops! We couldn&#8217;t find that page.</h1>",
                         "Unrecognized domain <strong>",
+                        "NoSuchKey",
+                        "The specified key does not exist",
                         "<title>Help Center Closed | Zendesk</title>"]
         
         self.success = Fore.GREEN 
@@ -222,7 +228,7 @@ class DnsSorgu(threading.Thread):
     
     def detect(self,subdomain):
         try:
-            subrespon=requests.get("http://"+subdomain).text      
+            subrespon=requests.get("http://"+subdomain,verify=False).text      
             for finder in self.response:
                 if finder in subrespon:
                     self.filewrite("--- TAKEOVER DETECTED !!! : "+subdomain)
