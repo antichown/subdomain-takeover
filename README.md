@@ -27,11 +27,9 @@ python takeover.py -d domain.com -f sublist.txt -t 20
 
 # Screenshots
 
-<img src=https://raw.githubusercontent.com/antichown/subdomain-takeover/master/take2.jpg>
+<img src=https://raw.githubusercontent.com/antichown/subdomain-takeover/master/x.png>
 
 <br>
-<img src=https://raw.githubusercontent.com/antichown/subdomain-takeover/master/take.png>
-
 
 # Video ( How to use Takeover )
 
