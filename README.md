@@ -1,6 +1,6 @@
-# Subdomain Takeover Scanner | Subdomain Takeover Tool | by 0x94
+# Subdomain Takeover Scanner | Subdomain Takeover Tool
 
-SubDomain TakeOver Scanner by <a href=http://twitter.com/0x94>@0x94</a>
+by <a href=http://twitter.com/0x94>@0x94</a>
 
 # How to install :
 
